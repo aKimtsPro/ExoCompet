@@ -1,5 +1,7 @@
-package be.tftic.java.entity;
+package be.tftic.java.entity.athlete;
 
+import be.tftic.java.entity.Address;
+import be.tftic.java.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

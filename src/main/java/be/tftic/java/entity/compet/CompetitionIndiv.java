@@ -1,7 +1,10 @@
-package be.tftic.java.entity;
+package be.tftic.java.entity.compet;
 
+import be.tftic.java.entity.athlete.AthleteIndiv;
+import be.tftic.java.entity.participation.ParticipationIndiv;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +14,7 @@ import java.util.Set;
 @Getter @Setter
 public class CompetitionIndiv extends Competition {
 
-    @ManyToMany
-    private Set<AthleteIndiv> participants;
+    @OneToMany(mappedBy = "competition", fetch = FetchType.EAGER)
+    private Set<ParticipationIndiv> participants;
 
 }

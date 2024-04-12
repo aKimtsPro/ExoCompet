@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.lang.StringTemplate.STR;
@@ -92,18 +93,28 @@ public abstract class AbstractMenu implements IMenu {
 
 
     protected  <T> T askForValue(Class<T> type, String message){
+        return this.askForValue(type, message, (_) -> true);
+    }
+
+    protected  <T> T askForValue(Class<T> type, String message, Predicate<Object> validator){
         System.out.print(message);
+
         do {
             try {
                 String valueString = scanner.nextLine().trim();
+                Object value = null;
                 if (type == Long.class) {
-                    return (T) Long.valueOf( Long.parseLong(valueString) );
+                    value = Long.valueOf( Long.parseLong(valueString) );
                 } else if (type == Double.class) {
-                    return (T) Double.valueOf( Double.parseDouble(valueString) );
+                    value = Double.valueOf( Double.parseDouble(valueString) );
                 } else if (type == String.class) {
-                    return (T) valueString;
+                    value = valueString;
                 } else if (type == Integer.class){
-                    return (T) Integer.valueOf( Integer.parseInt(valueString) );
+                    value = Integer.valueOf( Integer.parseInt(valueString) );
+                }
+
+                if(validator.test(value)){
+                    return (T) value;
                 }
             }
             catch (Exception ex){

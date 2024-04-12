@@ -1,4 +1,4 @@
-package be.tftic.java.repository;
+package be.tftic.java.dal;
 
 import be.tftic.java.AbstractRepository;
 import be.tftic.java.entity.participation.ParticipationId;

@@ -1,17 +1,27 @@
-package be.tftic.java.entity;
+package be.tftic.java.entity.compet;
 
+import be.tftic.java.WithId;
+import be.tftic.java.entity.Address;
+import be.tftic.java.entity.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Competition {
+@Getter @Setter
+public abstract class Competition extends BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "compet_id")
     private Long id;
+
+    @Column(name = "compet_title")
+    private String title;
 
     @Column(name = "compet_edition")
     private int edition;
@@ -32,4 +42,13 @@ public class Competition {
             @AttributeOverride(name = "country", column = @Column(name = "compet_country", nullable = false)),
     })
     private Address address;
+
+    @Column(name = "competition_inscription_limit", nullable = false)
+    private LocalDateTime inscriptionLimit;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "competition_status", nullable = false)
+    private CompetitionStatus status;
+
+    public abstract <T extends BaseEntity<Long>> Set<T> getParticipants();
 }
